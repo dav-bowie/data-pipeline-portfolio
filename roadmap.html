@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Pipeline Mastery — Your Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --accent: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #7fff6b;
+    --text: #e8e8f0;
+    --muted: #666680;
+    --border: #2a2a3a;
+    --glow: 0 0 30px rgba(0,229,255,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero h1 em { color: var(--accent2); font-style: normal; }
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 620px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.35s forwards;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 600; }
+
+  .tag-row {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 32px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.5s forwards;
+  }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .tag.hot { border-color: var(--accent2); color: var(--accent2); }
+  .tag.new { border-color: var(--accent3); color: var(--accent3); }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-top: 48px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-tab {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── SECTIONS ── */
+  .section { padding: 60px 0; display: none; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .section-title span { color: var(--accent); }
+  .section-desc {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 40px;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* ── PHASE CARDS ── */
+  .phases { display: flex; flex-direction: column; gap: 20px; }
+  .phase {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 28px 32px;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .phase:hover { box-shadow: var(--glow); }
+  .phase.orange { border-left-color: var(--accent2); }
+  .phase.green { border-left-color: var(--accent3); }
+  .phase.purple { border-left-color: #b388ff; }
+
+  .phase-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    color: var(--border);
+    position: absolute;
+    top: 12px; right: 24px;
+    line-height: 1;
+    user-select: none;
+  }
+  .phase-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .phase.orange .phase-label { color: var(--accent2); }
+  .phase.green .phase-label { color: var(--accent3); }
+  .phase.purple .phase-label { color: #b388ff; }
+
+  .phase h3 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .phase p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  .phase-tasks { list-style: none; }
+  .phase-tasks li {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+  .phase-tasks li:last-child { border-bottom: none; }
+  .phase-tasks li::before {
+    content: '→';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .phase.orange .phase-tasks li::before { color: var(--accent2); }
+  .phase.green .phase-tasks li::before { color: var(--accent3); }
+  .phase.purple .phase-tasks li::before { color: #b388ff; }
+
+  /* ── TECH GRID ── */
+  .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .tech-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .tech-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .tech-card .tech-icon { font-size: 28px; margin-bottom: 10px; }
+  .tech-card .tech-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--accent);
+  }
+  .tech-card .tech-role { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .tech-card .tech-priority {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    margin-top: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .priority-core { background: rgba(0,229,255,0.1); color: var(--accent); }
+  .priority-important { background: rgba(255,107,53,0.1); color: var(--accent2); }
+  .priority-advanced { background: rgba(127,255,107,0.1); color: var(--accent3); }
+
+  /* ── PROJECT CARDS ── */
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) { .projects-grid { grid-template-columns: 1fr; } }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .project-card.blue::before { background: var(--accent); }
+  .project-card.orange::before { background: var(--accent2); }
+  .project-card.green::before { background: var(--accent3); }
+  .project-card.purple::before { background: #b388ff; }
+  .project-card:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
+
+  .project-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .project-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .project-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .project-stack {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 16px;
+  }
+  .stack-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    background: var(--surface2);
+    color: var(--muted);
+    border-radius: 2px;
+  }
+  .project-outcome {
+    font-size: 12px;
+    color: var(--accent3);
+    font-style: italic;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── REPO / WEBSITE SETUP ── */
+  .setup-steps { display: flex; flex-direction: column; gap: 16px; }
+  .setup-step {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+    line-height: 1;
+    text-align: center;
+    padding-top: 4px;
+  }
+  .step-body {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+  }
+  .step-body h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .step-body p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+  .code-block {
+    background: #080810;
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--accent3);
+    line-height: 1.7;
+    overflow-x: auto;
+    margin-top: 8px;
+  }
+  .code-block .comment { color: var(--muted); }
+
+  /* ── N8N PIPELINE ── */
+  .pipeline {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+  .pipeline h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .pipeline-desc { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+
+  .pipeline-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .flow-node {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .flow-node.source { border-color: var(--accent2); color: var(--accent2); }
+  .flow-node.transform { border-color: var(--accent); color: var(--accent); }
+  .flow-node.output { border-color: var(--accent3); color: var(--accent3); }
+  .flow-arrow { color: var(--muted); font-size: 16px; }
+
+  .pipeline-detail {
+    font-size: 13px; color: var(--muted); line-height: 1.7;
+  }
+  .pipeline-detail strong { color: var(--text); }
+
+  /* ── SKILLS TRACKER ── */
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .skills-grid { grid-template-columns: 1fr; } }
+
+  .skill-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+  }
+  .skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .skill-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .skill-level {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .skill-bar {
+    height: 3px;
+    background: var(--border);
+    margin-bottom: 10px;
+  }
+  .skill-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 1s ease;
+  }
+  .skill-fill.orange { background: var(--accent2); }
+  .skill-fill.green { background: var(--accent3); }
+  .skill-fill.purple { background: #b388ff; }
+
+  .skill-resources {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .skill-resources span { color: var(--accent); }
+
+  /* ── SOCCER SECTION ── */
+  .insight-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .insight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    border-left: 3px solid var(--accent2);
+  }
+  .insight-q {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .insight-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .insight-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .insight-metrics {
+    display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap;
+  }
+  .metric-chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 4px 10px;
+    background: var(--surface2);
+    color: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-in {
+    opacity: 0;
+    animation: fadeUp 0.5s forwards;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin: 32px 0;
+    opacity: 0.3;
+  }
+
+  /* ── CTA BOX ── */
+  .cta-box {
+    background: linear-gradient(135deg, var(--surface) 0%, #0d1520 100%);
+    border: 1px solid var(--accent);
+    padding: 40px;
+    text-align: center;
+    margin-top: 40px;
+    box-shadow: var(--glow);
+  }
+  .cta-box h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .cta-box p { color: var(--muted); font-size: 14px; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .cta-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+  .cta-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 10px 20px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    cursor: pointer;
+    background: none;
+  }
+  .cta-link:hover { background: var(--accent); color: var(--bg); }
+  .cta-link.filled { background: var(--accent); color: var(--bg); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 48px 0 40px; }
+    .phase { padding: 20px; }
+    .phase-number { font-size: 48px; }
+    .setup-step { grid-template-columns: 40px 1fr; }
+    .tech-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">// data pipeline mastery — full roadmap</div>
+    <h1>SURVIVE &amp;<br><span>THRIVE</span> IN<br><em>DATA AI</em></h1>
+    <p class="hero-sub">
+      A complete blueprint to go from <strong>data analyst → pipeline builder → irreplaceable engineer</strong>.
+      Covers databases, Python, SQL, ETL, N8N automation, live dashboards, and soccer analytics.
+    </p>
+    <div class="tag-row">
+      <span class="tag">Python</span>
+      <span class="tag">SQL</span>
+      <span class="tag hot">N8N Pipelines</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag new">Soccer Analytics</span>
+      <span class="tag">ETL / ELT</span>
+      <span class="tag hot">Live Dashboards</span>
+      <a href="https://github.com/dav-bowie/data-pipeline-portfolio" target="_blank" class="tag" style="text-decoration:none;color:inherit;">GitHub →</a>
+    </div>
+    <div class="tag-row" style="margin-top:12px;">
+      <a href="https://dav-bowie.github.io/data-pipeline-portfolio" target="_blank" class="cta-link" style="padding:8px 16px;font-size:12px;">📂 Live Portfolio</a>
+      <a href="https://dav-bowie.streamlit.app" target="_blank" class="cta-link" style="padding:8px 16px;font-size:12px;">📊 Live Dashboard</a>
+    </div>
+  </section>
+
+  <!-- NAV -->
+  <nav class="nav-tabs" id="nav">
+    <button class="nav-tab active" onclick="showSection('roadmap', this)">Roadmap</button>
+    <button class="nav-tab" onclick="showSection('stack', this)">Tech Stack</button>
+    <button class="nav-tab" onclick="showSection('projects', this)">Projects</button>
+    <button class="nav-tab" onclick="showSection('setup', this)">Repo + Website</button>
+    <button class="nav-tab" onclick="showSection('pipelines', this)">N8N Pipelines</button>
+    <button class="nav-tab" onclick="showSection('skills', this)">Skills Plan</button>
+    <button class="nav-tab" onclick="showSection('soccer', this)">⚽ Soccer</button>
+  </nav>
+
+  <!-- ═══════════════════════ ROADMAP ═══════════════════════ -->
+  <section class="section active" id="roadmap">
+    <div class="section-title">YOUR <span>LEARNING</span> ROADMAP</div>
+    <p class="section-desc">Four phases. Each builds on the last. Phase 1 is your foundation — don't skip it. By Phase 4, companies will pay for your pipelines.</p>
+
+    <div class="phases">
+
+      <div class="phase">
+        <div class="phase-number">01</div>
+        <div class="phase-label">Phase 1 — Foundation (Weeks 1–4)</div>
+        <h3>Databases, SQL & Python Basics</h3>
+        <p>Before you can build pipelines, you need to speak the language of data. SQL is the most in-demand skill in analytics. Python makes you unstoppable. Databases are where everything lives.</p>
+        <ul class="phase-tasks">
+          <li>Set up PostgreSQL locally and learn: CREATE TABLE, INSERT, SELECT, WHERE, JOIN, GROUP BY, ORDER BY</li>
+          <li>Learn Python fundamentals: variables, loops, functions, file I/O — focus on pandas and numpy</li>
+          <li>Connect Python to PostgreSQL using psycopg2 or SQLAlchemy — query and write data programmatically</li>
+          <li>Understand data types, primary keys, foreign keys, and basic indexing</li>
+          <li>Practice: load a CSV into PostgreSQL and query it with SQL, then replicate in Python</li>
+          <li>Resource: "Mode SQL Tutorial" (free), "Kaggle Python Course" (free), PostgreSQL Docs</li>
+        </ul>
+      </div>
+
+      <div class="phase orange">
+        <div class="phase-number">02</div>
+        <div class="phase-label">Phase 2 — ETL & Data Cleaning (Weeks 5–8)</div>
+        <h3>Build Your First Pipeline</h3>
+        <p>ETL = Extract, Transform, Load. This is the core of every data job. You'll learn why source data is always messy and how to detect root-cause errors — the skill AI cannot replicate.</p>
+        <ul class="phase-tasks">
+          <li>Learn pandas deeply: merge, groupby, pivot_table, fillna, drop_duplicates, apply, lambda</li>
+          <li>Build data validation functions: check nulls, check referential integrity across linked tables</li>
+          <li>Write a Python ETL script: pull data from a CSV/API → clean it → load to PostgreSQL</li>
+          <li>Use Jupyter Notebooks for exploratory data analysis (EDA) — this is your analysis scratchpad</li>
+          <li>Learn to detect data lineage issues: trace errors from source tables back to root cause</li>
+          <li>Build a root-cause analysis template: when data looks wrong, ask "which upstream table caused this?"</li>
+        </ul>
+      </div>
+
+      <div class="phase green">
+        <div class="phase-number">03</div>
+        <div class="phase-label">Phase 3 — Visualization & Storytelling (Weeks 9–12)</div>
+        <h3>Tell the Story in the Data</h3>
+        <p>Numbers mean nothing without context. Your job as an analyst is to answer: what happened, why, and what should we do? This is where you go from "analyst" to "decision driver."</p>
+        <ul class="phase-tasks">
+          <li>Learn Plotly and Matplotlib for Python charts: bar, line, scatter, heatmap, treemap</li>
+          <li>Build a Streamlit dashboard — run Python code as a live web app with zero frontend knowledge</li>
+          <li>Frame every analysis with: Objective → Key Metric → Root Cause → Recommendation</li>
+          <li>Practice storytelling: given revenue data, find the top 3 insights and explain them in 3 bullets</li>
+          <li>Learn business KPIs: CAC, LTV, churn rate, gross margin, MoM growth, cohort analysis</li>
+          <li>Build a revenue/cost analysis report for a fictional SaaS company using public data</li>
+        </ul>
+      </div>
+
+      <div class="phase purple">
+        <div class="phase-number">04</div>
+        <div class="phase-label">Phase 4 — Automation & Pipelines (Weeks 13–20)</div>
+        <h3>N8N, Airflow & Live Systems</h3>
+        <p>This is where you become irreplaceable. You're not just analyzing data — you're building the infrastructure that auto-refreshes, validates, and delivers insights without anyone pressing a button.</p>
+        <ul class="phase-tasks">
+          <li>Install N8N locally, then on a cloud VPS (DigitalOcean/Render) — learn its node-based pipeline builder</li>
+          <li>Build an N8N pipeline: fetch data from an API → transform → insert to PostgreSQL → send Slack alert</li>
+          <li>Schedule pipelines with cron triggers — automate your ETL to run daily/hourly</li>
+          <li>Add error handling nodes: if data is missing or schema changes, send an alert email automatically</li>
+          <li>Connect N8N to your Streamlit dashboard for a fully automated live reporting system</li>
+          <li>Learn Apache Airflow as the enterprise-grade version of N8N for larger orgs</li>
+          <li>Build and document 2–3 sellable pipeline templates and publish on GitHub with a README</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="cta-box" style="margin-top:40px;">
+      <h3>THE EYEBROW-RAISING QUESTION</h3>
+      <p>Every analysis needs one. Before you touch data, write this sentence: <em>"I want to know WHY ______ happened so that we can ______."</em> That's your north star. Never start without it.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ STACK ═══════════════════════ -->
+  <section class="section" id="stack">
+    <div class="section-title">YOUR <span>TECH</span> STACK</div>
+    <p class="section-desc">Every tool you need, prioritized. Start with CORE tools. Add IMPORTANT once Phase 2 is done. ADVANCED is your moat.</p>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon">🐍</div>
+        <div class="tech-name">Python</div>
+        <div class="tech-role">Your main language. Pandas for data manipulation, requests for APIs, psycopg2 for DB connections.</div>
+        <span class="tech-priority priority-core">CORE</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🐘</div>
+        <div class="tech-name">PostgreSQL</div>
+        <div class="tech-role">Primary relational database. Free, powerful, used at every major tech company. Learn it deeply.</div>
+        <span class="tech-priority priority-core">CORE</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">📊</div>
+        <div class="tech-name">Pandas</div>
+        <div class="tech-role">Data manipulation library. If you know pandas well, you can clean, merge, and transform anything.</div>
+        <span class="tech-priority priority-core">CORE</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">⚡</div>
+        <div class="tech-name">Streamlit</div>
+        <div class="tech-role">Turn Python scripts into live web dashboards instantly. No frontend skills needed. Perfect for demos.</div>
+        <span class="tech-priority priority-core">CORE</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🔁</div>
+        <div class="tech-name">N8N</div>
+        <div class="tech-role">Visual workflow automation. Build pipelines connecting APIs, databases, emails — no heavy coding needed.</div>
+        <span class="tech-priority priority-core">CORE</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🐙</div>
+        <div class="tech-name">Git + GitHub</div>
+        <div class="tech-role">Version control and portfolio showcase. Every project goes here. Employers check this before your resume.</div>
+        <span class="tech-priority priority-core">CORE</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">📓</div>
+        <div class="tech-name">Jupyter Notebooks</div>
+        <div class="tech-role">Your EDA workspace. Document analysis step-by-step with code, charts, and commentary together.</div>
+        <span class="tech-priority priority-important">IMPORTANT</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">📈</div>
+        <div class="tech-name">Plotly / Matplotlib</div>
+        <div class="tech-role">Visualization libraries. Plotly for interactive charts, Matplotlib for static publication-quality plots.</div>
+        <span class="tech-priority priority-important">IMPORTANT</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🌬️</div>
+        <div class="tech-name">Apache Airflow</div>
+        <div class="tech-role">Enterprise pipeline orchestration. Learn after N8N. This is what large data teams use to run hundreds of pipelines.</div>
+        <span class="tech-priority priority-advanced">ADVANCED</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">❄️</div>
+        <div class="tech-name">dbt (data build tool)</div>
+        <div class="tech-role">Transform data in SQL with version control, tests, and documentation. The modern analytics engineer's tool.</div>
+        <span class="tech-priority priority-advanced">ADVANCED</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">☁️</div>
+        <div class="tech-name">Supabase / Render</div>
+        <div class="tech-role">Free cloud hosting for PostgreSQL and apps. Host your live pipeline and dashboard without paying AWS prices.</div>
+        <span class="tech-priority priority-important">IMPORTANT</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🤖</div>
+        <div class="tech-name">Claude / GPT API</div>
+        <div class="tech-role">Use AI to accelerate your analysis. Generate SQL, explain anomalies, summarize reports — but you own the pipeline.</div>
+        <span class="tech-priority priority-important">IMPORTANT</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PROJECTS ═══════════════════════ -->
+  <section class="section" id="projects">
+    <div class="section-title">PORTFOLIO <span>PROJECTS</span></div>
+    <p class="section-desc">Six real projects. Each is a portfolio piece. Each answers a business question. Each shows ETL, analysis, and storytelling together.</p>
+
+    <div class="projects-grid">
+
+      <a href="#" class="project-card blue" target="_blank" id="proj-saas" style="text-decoration:none;color:inherit;">
+        <div class="project-badge">Project 01 — Starter</div>
+        <h3>SaaS Revenue & Churn Pipeline</h3>
+        <p>Use public SaaS datasets (Kaggle or synthetic) to model monthly recurring revenue, churn rate, and customer lifetime value. Build an automated refresh pipeline.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">Streamlit</span><span class="stack-tag">Plotly</span>
+        </div>
+        <div class="project-outcome">📌 Answers: "Which customer segments are churning and why?"</div>
+      </a>
+
+      <a href="#" class="project-card orange" target="_blank" id="proj-ecommerce" style="text-decoration:none;color:inherit;">
+        <div class="project-badge">Project 02 — Business</div>
+        <h3>E-Commerce Sales Intelligence</h3>
+        <p>Load a public e-commerce dataset (Brazilian Olist on Kaggle is perfect). Track revenue by region, category, seller performance. Find the anomalies.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">SQL</span><span class="stack-tag">Jupyter</span><span class="stack-tag">Streamlit</span>
+        </div>
+        <div class="project-outcome">📌 Answers: "What caused Q3 revenue to drop 18%?"</div>
+      </a>
+
+      <a href="#" class="project-card green" target="_blank" id="proj-quality" style="text-decoration:none;color:inherit;">
+        <div class="project-badge">Project 03 — ETL Focus</div>
+        <h3>Data Quality Watchdog</h3>
+        <p>Build a pipeline that ingests raw data from multiple linked tables, detects root-cause errors (nulls, broken FK references, schema drift), and auto-alerts you.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">N8N</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">Email Alerts</span>
+        </div>
+        <div class="project-outcome">📌 Shows: The skill AI cannot replicate — tracing errors to source</div>
+      </a>
+
+      <a href="#" class="project-card purple" target="_blank" id="proj-soccer" style="text-decoration:none;color:inherit;">
+        <div class="project-badge">Project 04 — Soccer Analytics</div>
+        <h3>Premier League vs World Leagues</h3>
+        <p>Use StatsBomb open data or FBref to compare player performance metrics across EPL, La Liga, Bundesliga. Build xG, pressing stats, and physical output models.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">StatsBomb API</span><span class="stack-tag">Plotly</span><span class="stack-tag">Streamlit</span>
+        </div>
+        <div class="project-outcome">📌 Answers: "Why do EPL players outperform by physical metrics?"</div>
+      </a>
+
+      <a href="#" class="project-card blue" target="_blank" id="proj-live" style="text-decoration:none;color:inherit;">
+        <div class="project-badge">Project 05 — Automation</div>
+        <h3>Live Financial Dashboard</h3>
+        <p>Pull live stock/crypto data via free APIs (Alpha Vantage, Yahoo Finance). Refresh every hour via N8N. Display in a live Streamlit app hosted on Render.</p>
+        <div class="project-stack">
+          <span class="stack-tag">N8N</span><span class="stack-tag">Python</span><span class="stack-tag">REST API</span><span class="stack-tag">Streamlit Cloud</span>
+        </div>
+        <div class="project-outcome">📌 Shows: Full live pipeline from API → DB → Dashboard</div>
+      </a>
+
+      <div class="project-card orange">
+        <div class="project-badge">Project 06 — Capstone</div>
+        <h3>End-to-End Business Intelligence Suite</h3>
+        <p>Combine everything: automated ingestion, data quality checks, dimensional modeling, executive dashboard, and a written findings report. Your hiring showpiece.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Full Stack ETL</span><span class="stack-tag">N8N</span><span class="stack-tag">dbt</span><span class="stack-tag">Streamlit</span>
+        </div>
+        <div class="project-outcome">📌 This is what companies pay $80–150k/yr for</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ SETUP ═══════════════════════ -->
+  <section class="section" id="setup">
+    <div class="section-title">REPO + <span>LIVE WEBSITE</span> SETUP</div>
+    <p class="section-desc">Step-by-step: create your GitHub repo, launch a live Streamlit app, and set up your portfolio site. All free tier.</p>
+
+    <div class="setup-steps">
+
+      <div class="setup-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>CREATE YOUR GITHUB REPO STRUCTURE</h4>
+          <p>Go to github.com → New Repository → name it <strong>data-pipeline-portfolio</strong>. Set to Public. Add a README. Then clone and create this folder structure:</p>
+          <div class="code-block">
+data-pipeline-portfolio/<br>
+├── README.md               <span class="comment"># Your showcase — write this well</span><br>
+├── projects/<br>
+│   ├── saas-revenue/       <span class="comment"># Project 01</span><br>
+│   ├── ecommerce/          <span class="comment"># Project 02</span><br>
+│   ├── data-quality/       <span class="comment"># Project 03</span><br>
+│   ├── soccer-analytics/   <span class="comment"># Project 04</span><br>
+│   └── live-dashboard/     <span class="comment"># Project 05</span><br>
+├── pipelines/              <span class="comment"># N8N workflow JSON exports</span><br>
+├── dashboards/             <span class="comment"># Streamlit apps</span><br>
+├── notebooks/              <span class="comment"># Jupyter EDA notebooks</span><br>
+└── sql/                    <span class="comment"># SQL scripts and schemas</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>BUILD YOUR FIRST STREAMLIT APP</h4>
+          <p>Streamlit turns a Python script into a live web app. Install it and build your first dashboard:</p>
+          <div class="code-block">
+<span class="comment"># Install</span><br>
+pip install streamlit plotly pandas sqlalchemy<br><br>
+<span class="comment"># dashboards/app.py — minimal starter</span><br>
+import streamlit as st<br>
+import pandas as pd<br>
+import plotly.express as px<br><br>
+st.title("📊 My Data Pipeline Dashboard")<br>
+df = pd.read_csv("data/revenue.csv")<br>
+fig = px.line(df, x="month", y="revenue", title="MoM Revenue")<br>
+st.plotly_chart(fig)<br><br>
+<span class="comment"># Run locally</span><br>
+streamlit run dashboards/app.py
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>DEPLOY LIVE ON STREAMLIT CLOUD (FREE)</h4>
+          <p>Streamlit Community Cloud hosts your app for free, connected to your GitHub repo. Every git push auto-redeploys your live dashboard.</p>
+          <div class="code-block">
+1. Go to share.streamlit.io<br>
+2. Connect your GitHub account<br>
+3. Select repo: data-pipeline-portfolio<br>
+4. Main file path: dashboards/app.py<br>
+5. Click Deploy → Your URL: yourname.streamlit.app<br><br>
+<span class="comment"># Add a requirements.txt for dependencies</span><br>
+streamlit<br>
+pandas<br>
+plotly<br>
+sqlalchemy<br>
+psycopg2-binary
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>SET UP FREE CLOUD POSTGRESQL (SUPABASE)</h4>
+          <p>Supabase gives you a free hosted PostgreSQL database. Your pipeline can write to it; your Streamlit app can read from it — fully live.</p>
+          <div class="code-block">
+1. Go to supabase.com → New Project (free tier)<br>
+2. Copy your connection string from Settings → Database<br>
+3. In Python:<br><br>
+from sqlalchemy import create_engine<br>
+engine = create_engine(<br>
+  "postgresql://user:pass@db.supabase.co:5432/postgres"<br>
+)<br>
+df.to_sql("revenue", engine, if_exists="replace")<br><br>
+<span class="comment"># Store credentials in .env file (never commit this!)</span><br>
+<span class="comment"># Add .env to .gitignore</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>WRITE A KILLER README</h4>
+          <p>This is your portfolio. Recruiters read this. Every project folder needs a README.md that covers:</p>
+          <div class="code-block">
+# Project Name<br>
+## 🎯 Objective<br>
+What question does this answer? What's the business value?<br><br>
+## 🏗️ Architecture<br>
+[diagram or description of data flow]<br><br>
+## 📊 Key Findings<br>
+3 bullet points of your top insights<br><br>
+## 🛠️ Tech Stack<br>
+Python, PostgreSQL, N8N, Streamlit<br><br>
+## 🚀 Live Demo<br>
+[link to your Streamlit app]<br><br>
+## 📁 How to Run<br>
+Step-by-step instructions to reproduce
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h4>OPTIONAL: PORTFOLIO WEBSITE (GitHub Pages — Free)</h4>
+          <p>Create a simple HTML page in your repo's root that links to all your projects and live dashboards. GitHub Pages hosts it free at <strong>yourname.github.io/data-pipeline-portfolio</strong>.</p>
+          <div class="code-block">
+<span class="comment"># In your repo root, create index.html</span><br>
+<span class="comment"># Enable GitHub Pages:</span><br>
+Repo Settings → Pages → Source: main branch → /root<br><br>
+<span class="comment"># Your live portfolio will be at:</span><br>
+https://yourusername.github.io/data-pipeline-portfolio
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ N8N PIPELINES ═══════════════════════ -->
+  <section class="section" id="pipelines">
+    <div class="section-title">N8N <span>PIPELINE</span> BLUEPRINTS</div>
+    <p class="section-desc">Three automated pipelines to build. Each is a real-world use case. Exportable as JSON and sellable as templates.</p>
+
+    <div class="pipeline">
+      <h3>Pipeline 1: Daily Revenue Ingestion</h3>
+      <p class="pipeline-desc">Pulls data from a REST API (or CSV) every morning, validates it for nulls/anomalies, loads to PostgreSQL, and sends a Slack/email summary. This is the pipeline every startup needs.</p>
+      <div class="pipeline-flow">
+        <div class="flow-node source">⏰ Cron Trigger<br><small>7am daily</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node source">🌐 HTTP Request<br><small>API / CSV Source</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node transform">🔧 Transform<br><small>Clean & Validate</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node transform">⚠️ IF Node<br><small>Error detected?</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node output">🐘 PostgreSQL<br><small>Insert rows</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node output">📧 Send Summary<br><small>Slack / Email</small></div>
+      </div>
+      <div class="pipeline-detail">
+        <strong>N8N Nodes used:</strong> Schedule Trigger → HTTP Request → Code (JS/Python) → IF → PostgreSQL → Slack<br>
+        <strong>What it teaches:</strong> API integration, conditional logic, error alerting, DB writes<br>
+        <strong>Sellable for:</strong> Any company that manually downloads and uploads CSV data daily
+      </div>
+    </div>
+
+    <div class="pipeline">
+      <h3>Pipeline 2: Data Quality Monitor</h3>
+      <p class="pipeline-desc">Runs validation rules across multiple linked tables, traces errors back to their source table (the root cause problem you described), and creates a daily data health report.</p>
+      <div class="pipeline-flow">
+        <div class="flow-node source">⏰ Trigger<br><small>Every 6 hours</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node transform">🔍 Query Source<br><small>SQL checks</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node transform">🔗 Check Linked<br><small>FK validation</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node transform">🧮 Score Quality<br><small>% completeness</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node output">📊 Log Results<br><small>to DB</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node output">🚨 Alert if<br><small>score drops</small></div>
+      </div>
+      <div class="pipeline-detail">
+        <strong>Why this matters:</strong> This directly solves the root-cause problem you described. When source data is wrong, this pipeline traces the error back through linked tables automatically.<br>
+        <strong>Key N8N feature:</strong> Use Merge nodes to join results from multiple PostgreSQL queries and compare them.
+      </div>
+    </div>
+
+    <div class="pipeline">
+      <h3>Pipeline 3: Soccer Stats Live Feed</h3>
+      <p class="pipeline-desc">Fetches latest match data from a football API (API-Football or StatsBomb), transforms player metrics, stores in DB, and refreshes your live soccer dashboard automatically.</p>
+      <div class="pipeline-flow">
+        <div class="flow-node source">⏰ Post-Match<br><small>Trigger</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node source">⚽ Football API<br><small>Match stats</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node transform">📐 Calculate<br><small>xG, press, dist</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node transform">🔄 Compare<br><small>vs league avg</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node output">🐘 Update DB<br><small>PostgreSQL</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node output">📊 Dashboard<br><small>Auto-refresh</small></div>
+      </div>
+      <div class="pipeline-detail">
+        <strong>APIs to use:</strong> API-Football (free tier: 100 req/day), StatsBomb Open Data (GitHub, free), FBref (scraping with BeautifulSoup)<br>
+        <strong>Metrics to track:</strong> xG (expected goals), PPDA (pressing intensity), distance covered, sprint count, pass completion under pressure
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════ SKILLS ═══════════════════════ -->
+  <section class="section" id="skills">
+    <div class="section-title">SKILLS <span>DEVELOPMENT</span> PLAN</div>
+    <p class="section-desc">You identified four gaps. Here's exactly how to close each one with free resources and a progression path.</p>
+
+    <div class="skills-grid">
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">Databases (PostgreSQL)</div>
+          <div class="skill-level">START HERE</div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width:0%" id="db-bar"></div></div>
+        <div class="skill-resources">
+          <span>Week 1–2:</span> Install PostgreSQL + pgAdmin. Do the Mode Analytics SQL Tutorial (free, interactive). Create your first database with 3 linked tables.<br><br>
+          <span>Week 3–4:</span> Learn JOINs deeply — INNER, LEFT, RIGHT, FULL. Practice with the "DVD Rental" sample database that comes with PostgreSQL.<br><br>
+          <span>Milestone:</span> Write a query that joins 3 tables and produces a revenue-by-customer-segment report.
+        </div>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">Python for Data</div>
+          <div class="skill-level">MOST IMPORTANT</div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill orange" style="width:0%" id="py-bar"></div></div>
+        <div class="skill-resources">
+          <span>Week 1–2:</span> Kaggle's free Python and Pandas courses — hands-on, browser-based, no setup needed.<br><br>
+          <span>Week 3–4:</span> Build your own ETL script. Read a CSV, clean it with pandas, write to PostgreSQL.<br><br>
+          <span>Week 5+:</span> Learn requests library for API calls, schedule library for simple automation, logging for pipeline monitoring.<br><br>
+          <span>Milestone:</span> A Python script that runs ETL on a real dataset end-to-end.
+        </div>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">SQL (Advanced)</div>
+          <div class="skill-level">HIGH DEMAND</div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill green" style="width:0%" id="sql-bar"></div></div>
+        <div class="skill-resources">
+          <span>Foundation:</span> SELECT, WHERE, GROUP BY, ORDER BY, LIMIT, HAVING<br><br>
+          <span>Intermediate:</span> CTEs (WITH clauses), window functions (ROW_NUMBER, LAG, LEAD, RANK), subqueries<br><br>
+          <span>Advanced:</span> Query optimization, EXPLAIN ANALYZE, indexing strategies, materialized views<br><br>
+          <span>Resource:</span> pgexercises.com (free, in-browser), LeetCode SQL problems (free tier), Mode Analytics SQL School
+        </div>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <div class="skill-name">Analysis & Storytelling</div>
+          <div class="skill-level">YOUR MOAT</div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill purple" style="width:0%" id="story-bar"></div></div>
+        <div class="skill-resources">
+          <span>Framework to learn:</span> For every dataset, ask: What changed? When did it change? What caused it? What does it mean?<br><br>
+          <span>Practice:</span> Find a public dataset on Kaggle. Write a 1-page analysis in a Jupyter Notebook answering those 4 questions with charts.<br><br>
+          <span>Business KPIs to learn:</span> MoM growth, cohort retention, CAC payback period, gross margin, funnel conversion rates<br><br>
+          <span>Milestone:</span> Present 3 insights from a dataset to someone non-technical. If they understand it, you've won.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cta-box" style="margin-top: 32px;">
+      <h3>WEEKLY ROUTINE</h3>
+      <p>30 min/day is enough to be dangerous in 3 months. Structure: Monday–Wednesday = learn new concept + do exercises. Thursday–Friday = apply it to your project. Weekend = document and commit to GitHub.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ SOCCER ═══════════════════════ -->
+  <section class="section" id="soccer">
+    <div class="section-title">⚽ <span>SOCCER</span> ANALYTICS</div>
+    <p class="section-desc">Premier League dominance is measurable. Here's how to prove it with data — your eyebrow-raising questions and the metrics that answer them.</p>
+
+    <div class="insight-cards">
+
+      <div class="insight-card">
+        <div class="insight-q">Research Question</div>
+        <h4>Why do EPL players outperform physically?</h4>
+        <p>The EPL is the highest-tempo league in the world by distance covered and sprint count per match. Analyze average km/match and high-intensity sprints vs La Liga, Bundesliga, Serie A.</p>
+        <div class="insight-metrics">
+          <span class="metric-chip">km/match</span>
+          <span class="metric-chip">sprint count</span>
+          <span class="metric-chip">PPDA (pressing)</span>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-q">Analytical Angle</div>
+        <h4>xG vs Actual Goals — Who's Efficient?</h4>
+        <p>Expected Goals (xG) measures shot quality. Compare xG vs actual goals by league to find which leagues convert chances above expectation — is EPL clinical or just high-volume?</p>
+        <div class="insight-metrics">
+          <span class="metric-chip">xG</span>
+          <span class="metric-chip">shot conversion</span>
+          <span class="metric-chip">xG overperformance</span>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-q">Pipeline Opportunity</div>
+        <h4>Player Transfer Value Predictor</h4>
+        <p>Build a model that scores players by performance metrics and compares to their transfer value. Underpaid gems vs overpaid names. This is what clubs actually pay analysts for.</p>
+        <div class="insight-metrics">
+          <span class="metric-chip">age curve</span>
+          <span class="metric-chip">market value</span>
+          <span class="metric-chip">performance score</span>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-q">Data Sources</div>
+        <h4>Where to Get Free Soccer Data</h4>
+        <p>You don't need to buy data. StatsBomb publishes free event-level data for select competitions on GitHub. FBref has scraped stats for all major leagues. API-Football has a free tier.</p>
+        <div class="insight-metrics">
+          <span class="metric-chip">StatsBomb (free)</span>
+          <span class="metric-chip">FBref (scrape)</span>
+          <span class="metric-chip">API-Football</span>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-q">Python Library</div>
+        <h4>mplsoccer — Pitch Visualizations</h4>
+        <p>The mplsoccer Python library lets you draw football pitches and plot shot maps, pass networks, and heatmaps. Your soccer dashboard will look professional immediately. pip install mplsoccer.</p>
+        <div class="insight-metrics">
+          <span class="metric-chip">shot maps</span>
+          <span class="metric-chip">pass networks</span>
+          <span class="metric-chip">heatmaps</span>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-q">Dashboard Idea</div>
+        <h4>League Comparison Live Dashboard</h4>
+        <p>A Streamlit app where users select two leagues, a season, and a metric — and see a live comparison chart. Add N8N to refresh data after every matchweek. This is portfolio gold.</p>
+        <div class="insight-metrics">
+          <span class="metric-chip">interactive</span>
+          <span class="metric-chip">auto-refresh</span>
+          <span class="metric-chip">multi-league</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="phase purple" style="margin-top:0;">
+      <div class="phase-label">Soccer Project — Full Plan</div>
+      <h3>EPL vs World: Complete Analytics Project</h3>
+      <p>This is your standout project. It combines everything: data ingestion, ETL, SQL analysis, Python visualization, and storytelling. Use StatsBomb's free data to start.</p>
+      <ul class="phase-tasks">
+        <li>Download StatsBomb free data from GitHub (La Liga 15/16 Messi data is very detailed)</li>
+        <li>Load match events into PostgreSQL: shots, passes, pressure events, carries</li>
+        <li>Write SQL queries to aggregate by league: avg xG, press intensity, distance, goals</li>
+        <li>Scrape FBref with BeautifulSoup for cross-league comparison (EPL, La Liga, Bundesliga, Serie A)</li>
+        <li>Build mplsoccer visualizations: shot maps, pressure heatmaps, pass network by team</li>
+        <li>Create Streamlit app with league selector, team selector, and season selector</li>
+        <li>Write a 1-page findings report: "EPL dominates in pressing intensity (PPDA) but La Liga leads in xG efficiency"</li>
+        <li>Automate weekly data refresh with N8N using API-Football webhook</li>
+      </ul>
+    </div>
+
+  </section>
+
+</div>
+
+<!-- STICKY FOOTER CTA -->
+<div style="background: var(--surface); border-top: 1px solid var(--border); padding: 20px 0; margin-top: 80px; position: relative; z-index: 1;">
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px;">YOUR PATH TO PIPELINE MASTERY</div>
+        <div style="font-size:12px; color:var(--muted); font-family:'IBM Plex Mono',monospace;">Start with Phase 1 today. Build one project per month. Publish everything.</div>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="https://github.com/dav-bowie/data-pipeline-portfolio" target="_blank" class="cta-link filled">My Repo →</a>
+        <a href="https://dav-bowie.streamlit.app" target="_blank" class="cta-link">Live Dashboard →</a>
+        <a href="https://dav-bowie.github.io/data-pipeline-portfolio" target="_blank" class="cta-link">Portfolio Site →</a>
+        <a href="https://share.streamlit.io" target="_blank" class="cta-link">streamlit cloud →</a>
+        <a href="https://n8n.io" target="_blank" class="cta-link">n8n.io →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── LIVE PORTFOLIO CONFIG — update these when you add/change projects ──
+  const PORTFOLIO = {
+    repo: 'https://github.com/dav-bowie/data-pipeline-portfolio',
+    portfolio: 'https://dav-bowie.github.io/data-pipeline-portfolio',
+    streamlit: 'https://dav-bowie.streamlit.app',
+    projects: {
+      saas: 'https://github.com/dav-bowie/data-pipeline-portfolio/tree/main/projects/saas-revenue',
+      ecommerce: 'https://github.com/dav-bowie/data-pipeline-portfolio/tree/main/projects/ecommerce',
+      dataQuality: 'https://github.com/dav-bowie/data-pipeline-portfolio/tree/main/projects/data-quality',
+      soccer: 'https://github.com/dav-bowie/data-pipeline-portfolio/tree/main/projects/soccer-analytics',
+      liveDashboard: 'https://github.com/dav-bowie/data-pipeline-portfolio/tree/main/projects/live-dashboard',
+      dashboards: 'https://github.com/dav-bowie/data-pipeline-portfolio/tree/main/dashboards',
+      pipelines: 'https://github.com/dav-bowie/data-pipeline-portfolio/tree/main/pipelines',
+      notebooks: 'https://github.com/dav-bowie/data-pipeline-portfolio/tree/main/notebooks'
+    }
+  };
+
+  // Wire project links from config
+  document.addEventListener('DOMContentLoaded', () => {
+    const ids = { 'proj-saas': 'saas', 'proj-ecommerce': 'ecommerce', 'proj-quality': 'dataQuality', 'proj-soccer': 'soccer', 'proj-live': 'liveDashboard' };
+    Object.entries(ids).forEach(([elId, key]) => {
+      const el = document.getElementById(elId);
+      if (el && PORTFOLIO.projects[key]) el.href = PORTFOLIO.projects[key];
+    });
+  });
+
+  function showSection(id, tab) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    tab.classList.add('active');
+    window.scrollTo({ top: document.getElementById('nav').offsetTop - 20, behavior: 'smooth' });
+  }
+
+  // Animate skill bars when skills tab is shown
+  const origShowSection = window.showSection;
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (tab.textContent.includes('Skills')) {
+        setTimeout(() => {
+          const bars = [
+            ['db-bar', 15],
+            ['py-bar', 10],
+            ['sql-bar', 12],
+            ['story-bar', 20]
+          ];
+          bars.forEach(([id, pct]) => {
+            const el = document.getElementById(id);
+            if (el) el.style.width = pct + '%';
+          });
+        }, 300);
+      }
+    });
+  });
+
+  // Add subtle entrance animation to cards when sections appear
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.phase, .tech-card, .project-card, .setup-step, .insight-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(12px)';
+    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
