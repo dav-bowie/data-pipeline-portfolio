@@ -4,6 +4,8 @@ A showcase of data pipeline projects, dashboards, and analytics work.
 
 **Repo:** [github.com/dav-bowie/data-pipeline-portfolio](https://github.com/dav-bowie/data-pipeline-portfolio)
 
+📋 **[IMPLEMENTATION_LOG.md](IMPLEMENTATION_LOG.md)** — Full record of what was built, folder structure, live URLs, and history (for future reference).
+
 ## 🎯 What’s in here
 
 - **projects/** — Individual data pipeline projects (SaaS revenue, ecommerce, data quality, soccer analytics, live dashboards)
