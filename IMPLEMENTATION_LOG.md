@@ -76,7 +76,7 @@ data-pipeline-portfolio/
 | GitHub Repo | https://github.com/dav-bowie/data-pipeline-portfolio | Live |
 | Portfolio (GitHub Pages) | https://dav-bowie.github.io/data-pipeline-portfolio/ | Live |
 | Roadmap (GitHub Pages) | https://dav-bowie.github.io/data-pipeline-portfolio/roadmap.html | Live |
-| Streamlit Dashboard | https://dav-bowie.streamlit.app | Pending deploy |
+| Streamlit Dashboard | https://dav-bowie-datapipeline.streamlit.app | Configured (first deploy pending) |
 
 ---
 
@@ -114,6 +114,13 @@ data-pipeline-portfolio/
 - GitHub Pages enabled: Source = main branch, Path = / (root)
 - Portfolio and roadmap confirmed live
 
+### Phase 7 — Streamlit Community Cloud (Connected to GitHub)
+- Connected Streamlit Community Cloud to GitHub repo: `dav-bowie/data-pipeline-portfolio`
+- Branch: `main`
+- Main file path: `dashboards/app.py`
+- Selected app subdomain: `dav-bowie-datapipeline` (domain shown as available at setup time)
+- Note: credentials/tokens are **not** stored in this repo; keep secrets in Streamlit “Secrets” and/or local `.env` (already gitignored)
+
 ---
 
 ## 6. Configuration Reference
@@ -146,7 +153,7 @@ Update this object when adding new projects or changing URLs.
 
 | Item | Notes |
 |------|-------|
-| Streamlit Cloud deploy | Deploy `dashboards/app.py` at share.streamlit.io; main file path: `dashboards/app.py` |
+| Streamlit Cloud deploy | Streamlit app configured (repo/branch/path set). Complete first deploy + verify app loads at `https://dav-bowie-datapipeline.streamlit.app`. |
 | Supabase setup | Optional. Connection string in `.env`; add `.env` to `.gitignore` (already done) |
 | Project content | Fill in each `projects/*/README.md` with real objectives, architecture, findings |
 | N8N pipelines | Add workflow JSON exports to `pipelines/` |

@@ -16,7 +16,7 @@ A showcase of data pipeline projects, dashboards, and analytics work.
 
 ## 🚀 Live Demo
 
-- [Streamlit Dashboard](https://dav-bowie.streamlit.app) *(update after deploy)*
+- **Streamlit Dashboard (configured)**: `https://dav-bowie-datapipeline.streamlit.app` *(deploy in progress / first deploy pending)*
 
 ## 🛠️ Tech Stack
 
